@@ -44,6 +44,7 @@ public class Main {
 		System.out.print("Graph height: ");
 		int visHig = scanner.nextInt();
 
+		// Output graph visualization
 		System.out.println();
 		System.out.println(poly.visualizeGraph(
 			visMinX, visMaxX,

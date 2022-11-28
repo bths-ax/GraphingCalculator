@@ -1,3 +1,5 @@
+// TODO: Better comments lol
+
 public class Polynomial {
 	public int coefficientCnt;
 	private String coefficients; // not an array because "we didnt learn that yet" and i have a problem
@@ -37,8 +39,7 @@ public class Polynomial {
 		return ""; // TODO
 	}
 
-	public String visualizeGraph(int minX, int maxX, int minY, int maxY, int width, int height) {
-		// text based rendering oh god
+	public String visualizeGraph(int minX, int maxX, int minY, int maxY, int width, int height) { // text based rendering oh god
 		return ""; // TODO
 	}
 }
