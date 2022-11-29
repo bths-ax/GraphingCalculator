@@ -9,19 +9,23 @@ public class Main {
 		System.out.println("created by arden xie");
 		System.out.println();
 
+		// Assume all inputs are valid (eg. min < max, degree isn't extremely large, etc.)
+
 		// Input polynomial degree
 		System.out.print("Degree of polynomial? ");
 		int polyDeg = scanner.nextInt();
 
-		// Create polynomial object
+		// Create polynomial object and visualize expression
 		Polynomial poly = new Polynomial(polyDeg);
+
+		System.out.println();
+		System.out.println(poly.visualizeEquation());
+		System.out.println();
 
 		// Input polynomial coefficients
 		for (int i = 1; i <= polyDeg; i++) {
-			System.out.println(poly.visualizeEquation());
-			System.out.println();
 			System.out.print("Coefficient #" + i + ": ");
-			double coeff = scanner.nextDouble();
+			int coeff = scanner.nextInt();
 			poly.addCoefficient(coeff);
 		}
 
