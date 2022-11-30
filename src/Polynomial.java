@@ -1,73 +1,81 @@
+/**
+  * Represents a variable degree polynomial
+  */
 public class Polynomial {
-	public int coefficientCnt;
-	private String coefficients; // not an array because "we didnt learn that yet" and i have a problem
+	private int degree;
+	private String coefficients;
 
-	public Polynomial(int coefficientCnt) {
-		this.coefficientCnt = coefficientCnt;
-		this.coefficients = new String();
+	/**
+	  * Constructs an empty polynomial with a default degree of 3
+	  */
+	public Polynomial() {
+		this(3);
 	}
 
-	public void addCoefficient(int coefficient) {
-		// String format: "A,B,C,"
-		// For expression: Ax^2 + Bx + C
-		coefficients += coefficient + ",";
+	/**
+	  * Constructs an empty polynomial with a specified degree
+	  *
+	  * @param degree Degree of the polynomial
+	  */
+	public Polynomial(int degree) {
+		this.degree = degree;
+		this.coefficients = ",".repeat(degree); // thanks java for not documenting this method!
 	}
 
-	// so funny story!
-	// i was originally planning on making the coefficients doubles,
-	// which meant i could return Double.NaN for coefficients that
-	// didn't exist, but then i thought that doubles would be
-	// too annoying to deal with when printing, so i changed them to
-	// integers, but there was no NaN-like value for integers, sooooo...
-	// lol
-	public Integer getCoefficient(int index) {
-		int coStart = 0;
-		int coEnd = -1;
+	/**
+	  * Returns a string of the polynomial expression in standard form:
+	  * Ax^N + Bx^(N - 1) + ... + Cx + D
+	  *
+	  * Replaces coefficients with a variable if unset
+	  * (As there are only 26 letters, the degree should not be higher)
+	  */
+	public String toString() {
+		String expr = "";
 
-		// Parse coefficients string by finding the `index`th comma
-		for (int i = 0; i < index; i++) {
+		for (int coIdx = 0; coIdx < degree; coIdx++) {
+			Integer co = getCoefficient(coIdx);
+			// Concatenate coefficient
+			if (co == null) expr += (char)((int)('A') + coIdx);
+			else            expr += co;
+			// Concatenate x and exponent
+			if (coIdx == degree - 1);                           // Nothing if exponent is 0
+			else if (coIdx == degree - 2) expr += "x";          // Just "x" if exponent is 1
+			else                          expr += "x^" + coIdx; // Else "x^N" if exponent is N
+			expr += " + ";
+		}
+
+		return expr.substring(0, expr.length() - 3); // To remove the trailing " + "
+	}
+
+	/**
+	  * Returns the coefficient at the given index, or null if it is still unset
+	  *
+	  * @param coefficientIdx Index of the coefficient to get
+	  */
+	public Integer getCoefficient(int coefficientIdx) {
+		int coStart = 0, coEnd = -1;
+		for (int i = 0; i < coefficientIdx + 1; i++) {
 			coStart = coEnd + 1;
-			coEnd = coefficients.indexOf(",", coStart);
-			if (coEnd == -1) { // `index`th coefficient doesn't exist
-				return null;
-			}
+			coEnd = coefficients.indexOf(",", coEnd);
+		}
+		return new Integer(coefficients.substring(coStart, coEnd));
+	}
+
+	/**
+	  * Sets the coefficient at the given index
+	  *
+	  * @param coefficientIdx Index of the coefficient to set
+	  * @param coefficient    Coefficient to set
+	  */
+	public void setCoefficient(int coefficientIdx, Integer coefficient) {
+		int coStart = 0, coEnd = -1;
+		for (int i = 0; i < coefficientIdx + 1; i++) {
+			coStart = coEnd + 1;
+			coEnd = coefficients.index(",", coEnd);
 		}
 
-		return Integer.parseInt(coefficients.substring(coStart, coEnd));
-	}
-
-	// Calculates Ax^N + Bx^(N - 1) + ... by iterating through the coefficients
-	// Assume called only after all coefficients are added
-	public double evaluate(double x) {
-		double result = 0;
-		for (int i = 1; i <= coefficientCnt; i++)
-			result += getCoefficient(i) * Math.pow(x, coefficientCnt - i);
-		return result;
-	}
-
-	// Returns a string containing the polynomial equation in its
-	// empty form, with all the coefficients indexed
-	public String visualizeEquation() {
-		String eqStr = "y = ", idxStr = "";
-
-		for (int i = 1; i <= coefficientCnt; i++) {
-			// Pad `idxStr` to match `eqStr`'s length
-			for (int j = idxStr.length(); j < eqStr.length(); j++)
-				idxStr += " ";
-			// Add empty coefficient and index
-			eqStr += "_";
-			idxStr += i;
-			// Add the "x" portion
-			if (i == coefficientCnt);                       // Don't add anything if exponent is 0
-			else if (i == coefficientCnt - 1) eqStr += "x"; // Add "x" if exponent is 1
-			else eqStr += "x^" + (coefficientCnt - i);      // Add "x^N" if exponent > 1
-			eqStr += " + "; // Make sure to remove the trailing + at the end
-		}
-
-		return eqStr.substring(0, eqStr.length() - 3) + "\n" + idxStr;
-	}
-
-	public String visualizeGraph(int minX, int maxX, int minY, int maxY, int width, int height) { // text based rendering oh god
-		return ""; // TODO
+		coefficients = 
+			coefficients.substring(0, coStart) + coefficient +
+			coefficients.substring(coEnd);
 	}
 }
