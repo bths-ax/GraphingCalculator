@@ -28,6 +28,8 @@ public class Polynomial {
 	  *
 	  * Replaces coefficients with a variable if unset
 	  * (As there are only 26 letters, the degree should not be higher)
+	  *
+	  * @return String - Polynomial expression in standard form
 	  */
 	public String toString() {
 		String expr = "";
@@ -38,9 +40,9 @@ public class Polynomial {
 			if (co == null) expr += (char)((int)('A') + coIdx);
 			else            expr += co;
 			// Concatenate x and exponent
-			if (coIdx == degree - 1);                           // Nothing if exponent is 0
-			else if (coIdx == degree - 2) expr += "x";          // Just "x" if exponent is 1
-			else                          expr += "x^" + coIdx; // Else "x^N" if exponent is N
+			if (coIdx == degree - 1);                                          // Nothing if exponent is 0
+			else if (coIdx == degree - 2) expr += "x";                         // Just "x" if exponent is 1
+			else                          expr += "x^" + (degree - coIdx - 1); // Else "x^N" if exponent is N (Remember that 0 is the highest exponent)
 			expr += " + ";
 		}
 
@@ -48,17 +50,28 @@ public class Polynomial {
 	}
 
 	/**
+	  * Returns the degree of the polynomial
+	  * 
+	  * @return int - Degree of the polynomial
+	  */
+	public int getDegree() { return degree; }
+
+	/**
 	  * Returns the coefficient at the given index, or null if it is still unset
 	  *
 	  * @param coefficientIdx Index of the coefficient to get
+	  * @return Integer - Coefficient at the given index
 	  */
 	public Integer getCoefficient(int coefficientIdx) {
 		int coStart = 0, coEnd = -1;
 		for (int i = 0; i < coefficientIdx + 1; i++) {
 			coStart = coEnd + 1;
-			coEnd = coefficients.indexOf(",", coEnd);
+			coEnd = coefficients.indexOf(",", coStart);
 		}
-		return new Integer(coefficients.substring(coStart, coEnd));
+
+		if (coEnd - coStart == 0) // Coefficient isn't set yet (empty string)
+			return null;
+		return Integer.parseInt(coefficients.substring(coStart, coEnd));
 	}
 
 	/**
@@ -71,11 +84,43 @@ public class Polynomial {
 		int coStart = 0, coEnd = -1;
 		for (int i = 0; i < coefficientIdx + 1; i++) {
 			coStart = coEnd + 1;
-			coEnd = coefficients.index(",", coEnd);
+			coEnd = coefficients.indexOf(",", coStart);
 		}
 
 		coefficients = 
 			coefficients.substring(0, coStart) + coefficient +
 			coefficients.substring(coEnd);
+	}
+
+	/**
+	  * Evaluates the polynomial expression, substituting a given value for x
+	  *
+	  * Assumes that all coefficients are already set
+	  *
+	  * @param x Value to substitute in for x
+	  * @return double - Result of evaluating the polynomial expression
+	  */
+	public double evaluate(double x) {
+		double result = 0;
+		for (int coIdx = 0; coIdx < degree; coIdx++)
+			result += getCoefficient(coIdx) * Math.pow(x, degree - coIdx - 1);
+		return result;
+	}
+
+	/**
+	  * Returns a string of a visualization of the polynomial graph
+	  * using ASCII characters, generated with the given options
+	  *
+	  * @param width  The width of the visualization
+	  * @param height The height of the visualization
+	  * @param minX   The minimum x value of the visualization
+	  * @param maxX   The maximum x value of the visualization
+	  * @param minY   The minimum y value of the visualization
+	  * @param mayY   The maximum y value of the visualization
+	  *
+	  * @return String - Visualization of the polynomial graph
+	  */
+	public String visualizeGraph(int width, int height, int minX, int maxX, int minY, int maxY) {
+		return ""; // TODO: oh god why did i do this to myself
 	}
 }

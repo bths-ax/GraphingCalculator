@@ -15,8 +15,12 @@
 	* public String toString()
 		- Returns polynomial expression in standard form
 
+	* public int getDegree()
+		- Returns the degree of the polynomial
+
 	* public Integer getCoefficient(int coefficientIdx)
-		- Gets the coefficient at the given index (null if still unset)
+		- Returns the coefficient at the given index (null if still unset)
+		- Indexing starts at the highest order exponent
 	* public void setCoefficient(int coefficientIdx, Integer coefficient)
 		- Sets the coefficient at the given index to `coefficient`
 
