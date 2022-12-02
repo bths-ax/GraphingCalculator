@@ -11,6 +11,11 @@ public class Main {
 
 		Polynomial poly;
 
+		// Assume that valid sane values are inputted
+		// eg. degree not higher than like 10,
+		//     graph width and height are high enough for good resolution,
+		//     minimum values are less than maximum values, etc.
+
 		// Accepts user input for polynomial degree
 		System.out.print("Degree of polynomial (Enter for default of 3): ");
 		String polyDegStr = scanner.nextLine();

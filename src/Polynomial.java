@@ -42,7 +42,7 @@ public class Polynomial {
 			// Concatenate x and exponent
 			if (coIdx == degree - 1);                                          // Nothing if exponent is 0
 			else if (coIdx == degree - 2) expr += "x";                         // Just "x" if exponent is 1
-			else                          expr += "x^" + (degree - coIdx - 1); // Else "x^N" if exponent is N (Remember that 0 is the highest exponent)
+			else                          expr += "x^" + (degree - coIdx - 1); // Else "x^N" if exponent is N (remember that 0 is the highest exponent)
 			expr += " + ";
 		}
 
@@ -63,6 +63,7 @@ public class Polynomial {
 	  * @return Integer - Coefficient at the given index
 	  */
 	public Integer getCoefficient(int coefficientIdx) {
+		// Get start and end indexes of the `coefficientIdx`th coefficient
 		int coStart = 0, coEnd = -1;
 		for (int i = 0; i < coefficientIdx + 1; i++) {
 			coStart = coEnd + 1;
@@ -81,12 +82,14 @@ public class Polynomial {
 	  * @param coefficient    Coefficient to set
 	  */
 	public void setCoefficient(int coefficientIdx, Integer coefficient) {
+		// Get start and end indexes of the `coefficientIdx`th coefficient
 		int coStart = 0, coEnd = -1;
 		for (int i = 0; i < coefficientIdx + 1; i++) {
 			coStart = coEnd + 1;
 			coEnd = coefficients.indexOf(",", coStart);
 		}
 
+		// Cut out the old coefficient and add the new one in
 		coefficients = 
 			coefficients.substring(0, coStart) + coefficient +
 			coefficients.substring(coEnd);
@@ -121,6 +124,51 @@ public class Polynomial {
 	  * @return String - Visualization of the polynomial graph
 	  */
 	public String visualizeGraph(int width, int height, int minX, int maxX, int minY, int maxY) {
-		return ""; // TODO: oh god why did i do this to myself
+		String graphStr = "";
+
+		for (int y = height - 1; y >= 0; y--) { // Printing up -> down: greater -> lesser y values
+			graphStr += "|"; // optional aesthetics (frame for the graph, left side)
+			for (int x = 0; x < width; x++) {   // Printing left -> right: lesser -> greater x values
+				// Each pixel takes up some portion of the graph, so get the bounds of each pixel
+				double graphXLeft  = (double)(x    ) / width * (maxX - minX) + minX;
+				double graphXRight = (double)(x + 1) / width * (maxX - minX) + minX;
+				double graphYBot = (double)(y    ) / height * (maxY - minY) + minY;
+				double graphYTop = (double)(y + 1) / height * (maxY - minY) + minY;
+
+				String graphPixel = " ";
+
+				// Show the axis if the pixel should contain it
+				boolean isXAxis = graphYBot <= 0 && 0 <= graphYTop;
+				boolean isYAxis = graphXLeft <= 0 && 0 <= graphXRight;
+
+				if (isXAxis && isYAxis) graphPixel = "+"; // Congratulations you're the pixel where the axis cross each other!
+				else if (isXAxis) graphPixel = "-";
+				else if (isYAxis) graphPixel = "|";
+
+				// Show the graph if the pixel should contain it
+				// Split each pixel into 24 parts (not including the edges)
+				for (int i = 1; i < 25; i++) {
+					// Evaluate the expression for the x value at that portion of the pixel
+					double exprX = i/25.0 * (graphXRight - graphXLeft) + graphXLeft;
+					double exprY = evaluate(exprX);
+
+					// Check if the result is within the bounds of the pixel
+					// If it is, that means that this pixel should be shaded
+					if (graphYBot <= exprY && exprY <= graphYTop) {
+						graphPixel = "*";
+					}
+				}
+
+				graphStr += graphPixel;
+			}
+			graphStr += "|"; // optional aesthetics (frame for the graph, right side)
+			graphStr += "\n";
+		}
+
+		graphStr = // optional aesthetics (frame for the graph, top and bottom)
+			"+" + "-".repeat(width) + "+\n" + graphStr +
+			"+" + "-".repeat(width) + "+";
+
+		return graphStr;
 	}
 }
