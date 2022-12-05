@@ -50,13 +50,13 @@ public class Main {
 		int grHeight = scanner.nextInt();
 
 		System.out.print("Graph minimum x value: ");
-		int grMinX = scanner.nextInt();
+		double grMinX = scanner.nextDouble();
 		System.out.print("Graph maximum x value: ");
-		int grMaxX = scanner.nextInt();
+		double grMaxX = scanner.nextDouble();
 		System.out.print("Graph minimum y value: ");
-		int grMinY = scanner.nextInt();
+		double grMinY = scanner.nextDouble();
 		System.out.print("Graph maximum y value: ");
-		int grMaxY = scanner.nextInt();
+		double grMaxY = scanner.nextDouble();
 
 		// Visualizes the graph and prints it out
 		System.out.println();

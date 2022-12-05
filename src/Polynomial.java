@@ -123,7 +123,7 @@ public class Polynomial {
 	  *
 	  * @return String - Visualization of the polynomial graph
 	  */
-	public String visualizeGraph(int width, int height, int minX, int maxX, int minY, int maxY) {
+	public String visualizeGraph(int width, int height, double minX, double maxX, double minY, double maxY) {
 		String graphStr = "";
 
 		for (int y = height - 1; y >= 0; y--) { // Printing up -> down: greater -> lesser y values
