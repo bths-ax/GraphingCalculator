@@ -1,6 +1,6 @@
 # Project Requirements
 
-## Unit 1
+## Unit 1: Primitive Types
 
 - [x] Uses `System.out.print()` or `System.out.println()`.
 - [x] Uses string literals.
