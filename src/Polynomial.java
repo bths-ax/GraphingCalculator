@@ -141,7 +141,7 @@ public class Polynomial {
 				boolean isXAxis = graphYBot <= 0 && 0 <= graphYTop;
 				boolean isYAxis = graphXLeft <= 0 && 0 <= graphXRight;
 
-				if (isXAxis && isYAxis) graphPixel = "+"; // Congratulations you're the pixel where the axis cross each other!
+				if (isXAxis && isYAxis) graphPixel = "+"; // Congratulations you're the one pixel where the axis cross each other!
 				else if (isXAxis) graphPixel = "-";
 				else if (isYAxis) graphPixel = "|";
 
@@ -154,7 +154,7 @@ public class Polynomial {
 
 					// Check if the result is within the bounds of the pixel
 					// If it is, that means that this pixel should be shaded
-					if (graphYBot <= exprY && exprY <= graphYTop) {
+					if (graphYBot <= exprY && exprY < graphYTop) {
 						graphPixel = "*";
 					}
 				}
