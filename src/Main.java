@@ -17,13 +17,13 @@ public class Main {
 		//     minimum values are less than maximum values, etc.
 
 		// Accepts user input for polynomial degree
-		System.out.print("Degree of polynomial (Enter for default of 3): ");
+		System.out.print("Degree of polynomial (Enter for default of 2): ");
 		String polyDegStr = scanner.nextLine();
 
 		if (polyDegStr.length() == 0) {
 			poly = new Polynomial();
 		} else {
-			poly = new Polynomial(Integer.parseInt(polyDegStr));
+			poly = new Polynomial(Integer.parseInt(polyDegStr) + 1);
 		}
 
 		// Accepts user input for polynomial coefficients
