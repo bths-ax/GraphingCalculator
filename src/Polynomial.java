@@ -2,7 +2,10 @@
   * Represents a variable degree polynomial
   */
 public class Polynomial {
+	/** The number of coefficients in the polynomial */
 	private int degree;
+	/** A comma separated string of all the coefficients in the polynomial,
+	    used for getting and setting any amount of coefficients */
 	private String coefficients;
 
 	/**
